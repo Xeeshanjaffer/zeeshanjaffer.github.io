@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Muhammad Zeeshan – QA Automation Engineer</title>
+  <link rel="icon" href="mz-logo.svg"/>
+ 
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #ffffff;
+      --text: #1a1a2e;
+      --muted: #9ca3af;
+      --border: #e5e7eb;
+      --hover-bg: #f9fafb;
+      --icon-blue: #3b82f6;
+      --icon-orange: #f97316;
+      --icon-purple: #8b5cf6;
+      --icon-green: #22c55e;
+      --icon-globe: #3b82f6;
+      --icon-pink: #ec4899;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: 'Inter', sans-serif;
+      background:url('bg.jpg') center/cover fixed;
+      color: var(--text);
+    }
+
+    /* ── PAGE WRAPPER ── */
+    .page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem 6rem;
+    }
+
+    /* ── SIGNATURE NAME ── */
+    .signature {
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(4rem, 12vw, 8rem);
+      color: #c9dcf8;
+      text-align: center;
+      line-height: 1.1;
+      margin-bottom: 2.5rem;
+      letter-spacing: 0.01em;
+      user-select: none;
+    }
+
+    /* ── SEARCH BAR ── */
+    .search-wrap {
+      width: 100%;
+      max-width: 560px;
+      position: relative;
+      margin-bottom: 0.5rem;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 0.85rem 3rem 0.85rem 1.2rem;
+      font-size: 1rem;
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: 12px 12px 0 0;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .search-input::placeholder { color: var(--muted); }
+    .search-input:focus { border-color: #d1d5db; }
+
+    .search-icon {
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+      pointer-events: none;
+    }
+
+    /* ── MENU CARD ── */
+    .menu-card {
+      width: 100%;
+      max-width: 560px;
+      border: 1.5px solid var(--border);
+      border-top: none;
+      border-radius: 0 0 16px 16px;
+      overflow: hidden;
+      background: var(--bg);
+    }
+
+    .menu-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.2rem;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      transition: background 0.15s;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .menu-item:last-child { border-bottom: none; }
+    .menu-item:hover { background: var(--hover-bg); }
+
+    .menu-left {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+    }
+
+    .menu-icon {
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .menu-label {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    .menu-hint {
+      font-size: 0.85rem;
+      color: var(--muted);
+      font-weight: 400;
+    }
+
+    /* ── SOCIAL BAR ── */
+    .social-bar {
+      position: fixed;
+      bottom: 1.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: 999px;
+      padding: 0.7rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+      z-index: 100;
+    }
+
+    .social-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      transition: transform 0.2s, opacity 0.2s;
+      text-decoration: none;
+    }
+
+    .social-link:hover { transform: translateY(-2px); opacity: 0.8; }
+
+    /* ── SECTION PAGES ── */
+    .section-page {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: var(--bg);
+      z-index: 200;
+      overflow-y: auto;
+      animation: slideUp 0.3s ease;
+    }
+
+    .section-page.active { display: block; }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .section-inner {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 6rem;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-family: 'Inter', sans-serif;
+      padding: 0.5rem 0;
+      margin-bottom: 2rem;
+      transition: color 0.2s;
+    }
+
+    .back-btn:hover { color: var(--text); }
+
+    .section-title {
+      font-family: 'Great Vibes', cursive;
+      font-size: 3.5rem;
+      color: #1e2340;
+      margin-bottom: 2rem;
+    }
+
+    /* About */
+    .about-desc {
+      font-size: 0.95rem;
+      line-height: 1.8;
+      color: #374151;
+      margin-bottom: 2rem;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .about-cell {
+      padding: 1rem 1.2rem;
+      border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .about-cell:nth-child(even) { border-right: none; }
+    .about-cell:nth-last-child(-n+2) { border-bottom: none; }
+
+    .about-cell .alabel {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      margin-bottom: 0.3rem;
+    }
+
+    .about-cell .avalue {
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    /* Skills */
+    .skill-group { margin-bottom: 1.5rem; }
+
+    .skill-group-title {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      margin-bottom: 0.6rem;
+    }
+
+    .skill-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .skill-pill {
+      font-size: 0.8rem;
+      color: #374151;
+      background: #f3f4f6;
+      border: 1px solid var(--border);
+      padding: 0.3rem 0.8rem;
+      border-radius: 999px;
+    }
+
+    /* Work */
+    .work-item {
+      padding: 1.5rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .work-item:last-child { border-bottom: none; }
+
+    .work-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+      gap: 1rem;
+    }
+
+    .work-company {
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .work-date {
+      font-size: 0.75rem;
+      color: var(--muted);
+      white-space: nowrap;
+      margin-top: 0.1rem;
+    }
+
+    .work-role {
+      font-size: 0.8rem;
+      color: #6366f1;
+      font-weight: 500;
+      margin-bottom: 0.75rem;
+    }
+
+    .work-badge {
+      display: inline-block;
+      font-size: 0.65rem;
+      background: #dcfce7;
+      color: #16a34a;
+      padding: 0.15rem 0.5rem;
+      border-radius: 999px;
+      margin-left: 0.5rem;
+      font-weight: 500;
+    }
+
+    .work-bullets {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .work-bullets li {
+      font-size: 0.83rem;
+      color: #4b5563;
+      line-height: 1.6;
+      padding-left: 1rem;
+      position: relative;
+    }
+
+    .work-bullets li::before {
+      content: '·';
+      position: absolute;
+      left: 0;
+      color: var(--muted);
+      font-size: 1.2rem;
+      line-height: 1.2;
+    }
+
+    /* Projects */
+    .proj-card {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.2rem;
+      margin-bottom: 0.75rem;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+
+    .proj-card:hover {
+      box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+      transform: translateY(-2px);
+    }
+
+    .proj-type {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      margin-bottom: 0.4rem;
+    }
+
+    .proj-name {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+    }
+
+    .proj-desc {
+      font-size: 0.82rem;
+      color: #6b7280;
+      line-height: 1.6;
+      margin-bottom: 0.75rem;
+    }
+
+    .proj-tags { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+
+    .proj-tag {
+      font-size: 0.68rem;
+      color: #6b7280;
+      background: #f3f4f6;
+      padding: 0.2rem 0.55rem;
+      border-radius: 4px;
+    }
+
+    Colophon
+    .colo-text {
+      font-size: 0.92rem;
+      color: #374151;
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+    }
+
+    .colo-pills { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .colo-pill {
+      font-size: 0.75rem;
+      color: #374151;
+      background: #f3f4f6;
+      border: 1px solid var(--border);
+      padding: 0.3rem 0.8rem;
+      border-radius: 999px;
+    }
+
+    @media (max-width: 480px) {
+      .signature { font-size: 3.5rem; }
+      .menu-hint { display: none; }
+      .social-bar { gap: 0.8rem; padding: 0.6rem 1.1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════ HOME PAGE ═══════════════ -->
+<div class="page" id="home">
+
+  <div class="signature">Muhammad Zeeshan</div>
+
+  <div class="search-wrap">
+    <input class="search-input" type="text" placeholder="What's up?" id="searchInput" autocomplete="off"/>
+    <span class="search-icon">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+      </svg>
+    </span>
+  </div>
+
+  <div class="menu-card" id="menuCard">
+    <!-- About -->
+    <a class="menu-item" href="#" onclick="openSection('about'); return false;">
+      <div class="menu-left">
+        <div class="menu-icon">
+          <svg width="20" height="20" fill="none" stroke="#3b82f6" stroke-width="1.8" viewBox="0 0 24 24">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+        </div>
+        <span class="menu-label">About</span>
+      </div>
+      <span class="menu-hint">SQA Automation & AI Engineer</span>
+    </a>
+
+    <!-- Work -->
+    <a class="menu-item" href="#" onclick="openSection('work'); return false;">
+      <div class="menu-left">
+        <div class="menu-icon">
+          <svg width="20" height="20" fill="none" stroke="#f97316" stroke-width="1.8" viewBox="0 0 24 24">
+            <rect x="2" y="7" width="20" height="14" rx="2"/>
+            <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/>
+            <line x1="12" y1="12" x2="12" y2="16"/>
+            <line x1="10" y1="14" x2="14" y2="14"/>
+          </svg>
+        </div>
+        <span class="menu-label">Work</span>
+      </div>
+      <span class="menu-hint">currently at OctDaily</span>
+    </a>
+
+    <!-- Skills -->
+    <a class="menu-item" href="#" onclick="openSection('skills'); return false;">
+      <div class="menu-left">
+        <div class="menu-icon">
+          <svg width="20" height="20" fill="none" stroke="#8b5cf6" stroke-width="1.8" viewBox="0 0 24 24">
+            <polyline points="16 18 22 12 16 6"/>
+            <polyline points="8 6 2 12 8 18"/>
+          </svg>
+        </div>
+        <span class="menu-label">Skills</span>
+      </div>
+      <span class="menu-hint">Cypress · Playwright · Selenium</span>
+    </a>
+
+    <!-- Projects -->
+    <a class="menu-item" href="#" onclick="openSection('projects'); return false;">
+      <div class="menu-left">
+        <div class="menu-icon">
+          <svg width="20" height="20" fill="none" stroke="#22c55e" stroke-width="1.8" viewBox="0 0 24 24">
+            <path d="M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z"/>
+          </svg>
+        </div>
+        <span class="menu-label">Projects</span>
+      </div>
+      <span class="menu-hint">automation & testing</span>
+    </a>
+
+    <!-- Colophon
+    <a class="menu-item" href="#" onclick="openSection('colophon'); return false;">
+      <div class="menu-left">
+        <div class="menu-icon">
+          <svg width="20" height="20" fill="none" stroke="#3b82f6" stroke-width="1.8" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+          </svg>
+        </div>
+        <span class="menu-label">Colophon</span>
+      </div>
+      <span class="menu-hint">how this portfolio was built?</span>
+    </a> -->
+
+    <!-- Contact -->
+    <a class="menu-item" href="mailto:zeeshan.jaffer99@gmail.com">
+      <div class="menu-left">
+        <div class="menu-icon">
+          <svg width="20" height="20" fill="none" stroke="#ec4899" stroke-width="1.8" viewBox="0 0 24 24">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+            <polyline points="22,6 12,13 2,6"/>
+          </svg>
+        </div>
+        <span class="menu-label">Contact</span>
+      </div>
+      <span class="menu-hint">zeeshan.jaffer99@gmail.com</span>
+    </a>
+  </div>
+
+</div>
+
+<!-- ═══════════════ SOCIAL BAR ═══════════════ -->
+<div class="social-bar">
+  <!-- LinkedIn -->
+  <a class="social-link" href="https://linkedin.com/in/ZeeshanJaffer" target="_blank" title="LinkedIn">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="#0a66c2">
+      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+      <rect x="2" y="9" width="4" height="12"/>
+      <circle cx="4" cy="4" r="2"/>
+    </svg>
+  </a>
+  <!-- GitHub -->
+  <a class="social-link" href="https://github.com/Xeeshanjaffer" target="_blank" title="GitHub">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="#000">
+      <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+    </svg>
+  </a>
+  <!-- Email -->
+  <a class="social-link" href="mailto:zeeshan.jaffer99@gmail.com" title="Email">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="#ea4335">
+      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+      <polyline points="22,6 12,13 2,6" fill="none" stroke="#fff" stroke-width="1.5"/>
+    </svg>
+  </a>
+  <!-- X / Twitter -->
+  <a class="social-link" href="#" target="_blank" title="X / Twitter">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="#000">
+      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.253 5.622L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/>
+    </svg>
+  </a>
+  <!-- Phone -->
+  <a class="social-link" href="tel:+923318460474" title="Phone">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2">
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.1a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.24h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.18 6.18l.91-.91a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21.92 17z"/>
+    </svg>
+  </a>
+</div>
+
+<!-- ═══════════════ SECTION PAGES ═══════════════ -->
+
+<!-- ABOUT -->
+<div class="section-page" id="sec-about">
+  <div class="section-inner">
+    <button class="back-btn" onclick="closeSection('about')">
+      ← back
+    </button>
+    <div class="section-title">About Me</div>
+    <p class="about-desc">
+      Hi! I'm Zeeshan — a QA Automation Engineer with 4+ years of experience shipping quality software across Healthcare, E-commerce, Fintech & ERP domains.
+      I specialize in building robust automation frameworks from scratch, setting up CI/CD pipelines, and making sure nothing ships broken.
+      When I'm not writing test scripts, I'm reviewing pull requests or hunting edge cases that developers swear can't happen.
+    </p>
+    <div class="about-grid">
+      <div class="about-cell">
+        <div class="alabel">Based In</div>
+        <div class="avalue">Karachi, Pakistan</div>
+      </div>
+      <div class="about-cell">
+        <div class="alabel">Currently At</div>
+        <div class="avalue">OctDaily – United Partners</div>
+      </div>
+      <div class="about-cell">
+        <div class="alabel">Education</div>
+        <div class="avalue">IQRA University – CS</div>
+      </div>
+      <div class="about-cell">
+        <div class="alabel">Domains</div>
+        <div class="avalue">Healthcare · Fintech · E-com</div>
+      </div>
+      <div class="about-cell">
+        <div class="alabel">Favourite Bug</div>
+        <div class="avalue">The one nobody else found 🐛</div>
+      </div>
+      <div class="about-cell">
+        <div class="alabel">Contact</div>
+        <div class="avalue">+92 331 8460474</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- WORK -->
+<div class="section-page" id="sec-work">
+  <div class="section-inner">
+    <button class="back-btn" onclick="closeSection('work')">← back</button>
+    <div class="section-title">Work</div>
+
+    <div class="work-item">
+      <div class="work-top">
+        <span class="work-company">OctDaily – United Partners Pvt Ltd <span class="work-badge">● current</span></span>
+        <span class="work-date">Apr 2025 – Present</span>
+      </div>
+      <div class="work-role">QA Engineer</div>
+      <ul class="work-bullets">
+        <li>Automated 100+ test cases for Atlas migration flows across web, backend & integrated systems.</li>
+        <li>Led end-to-end automation for Carenexa using Cypress — API, UI & Database validations.</li>
+        <li>Built custom automation framework with JavaScript, Cypress & Chai — 30+ reusable functions.</li>
+        <li>Set up CI/CD pipelines with Azure DevOps and GitLab to streamline automation & deployments.</li>
+        <li>Managed QA workflows in Jira: test tracking, defect management & sprint reporting.</li>
+      </ul>
+    </div>
+
+    <div class="work-item">
+      <div class="work-top">
+        <span class="work-company">SocialPie Technologies</span>
+        <span class="work-date">Mar 2023 – Mar 2025</span>
+      </div>
+      <div class="work-role">QA Engineer</div>
+      <ul class="work-bullets">
+        <li>Managed complete QA lifecycle: requirement analysis, test planning, execution & reporting.</li>
+        <li>Performed API testing using Postman — validating endpoints, payloads & response accuracy.</li>
+        <li>Conducted load & performance testing with JMeter to ensure scalability under high traffic.</li>
+        <li>Automated e2e user stories with Playwright, boosting regression coverage & reducing manual effort.</li>
+        <li>Executed manual testing on Android & iOS — UI, functionality & backend API integration.</li>
+      </ul>
+    </div>
+
+    <div class="work-item">
+      <div class="work-top">
+        <span class="work-company">Contour Software Pvt Ltd</span>
+        <span class="work-date">Dec 2022 – Feb 2023</span>
+      </div>
+      <div class="work-role">QA Automation Engineer – Trainee</div>
+      <ul class="work-bullets">
+        <li>Automated OrangeHRM scenarios using Selenium (Java) with Cucumber BDD & Page Factory Model.</li>
+        <li>Performed API testing with Postman, SOAPUI & JMeter for performance & regression coverage.</li>
+        <li>Contributed to AdactinhotelApp projects on Azure DevOps.</li>
+        <li>Prepared FDD-based test plans and designed functional & E2E test case workflows.</li>
+      </ul>
+    </div>
+
+    <div class="work-item">
+      <div class="work-top">
+        <span class="work-company">Hassoft Solution</span>
+        <span class="work-date">Jul 2021 – Nov 2022</span>
+      </div>
+      <div class="work-role">Junior SQA Engineer</div>
+      <ul class="work-bullets">
+        <li>Tested mobile/web applications including ERP, Payroll & WordPress websites.</li>
+        <li>Performed GUI, functional, responsive & cross-browser testing.</li>
+        <li>Reported bugs using JIRA and extracted test cases from user stories.</li>
+        <li>Conducted testing on Android & iOS across various OS versions.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- SKILLS -->
+<div class="section-page" id="sec-skills">
+  <div class="section-inner">
+    <button class="back-btn" onclick="closeSection('skills')">← back</button>
+    <div class="section-title">Skills</div>
+
+    <div class="skill-group">
+      <div class="skill-group-title">Automation Frameworks</div>
+      <div class="skill-pills">
+        <span class="skill-pill">Selenium (Java)</span>
+        <span class="skill-pill">POM</span>
+        <span class="skill-pill">Cypress</span>
+        <span class="skill-pill">Playwright</span>
+        <span class="skill-pill">Cucumber BDD</span>
+        <span class="skill-pill">Page Factory</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-group-title">API & Performance</div>
+      <div class="skill-pills">
+        <span class="skill-pill">Postman</span>
+        <span class="skill-pill">SOAPUI</span>
+        <span class="skill-pill">JMeter</span>
+        <span class="skill-pill">REST API</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-group-title">CI/CD & DevOps</div>
+      <div class="skill-pills">
+        <span class="skill-pill">Azure DevOps</span>
+        <span class="skill-pill">GitLab CI</span>
+        <span class="skill-pill">Git</span>
+        <span class="skill-pill">CI/CD Pipelines</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-group-title">Languages & Database</div>
+      <div class="skill-pills">
+        <span class="skill-pill">JavaScript</span>
+        <span class="skill-pill">Java</span>
+        <span class="skill-pill">MS SQL</span>
+        <span class="skill-pill">Database Testing</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-group-title">Testing Types & Tools</div>
+      <div class="skill-pills">
+        <span class="skill-pill">Regression</span>
+        <span class="skill-pill">Smoke & Sanity</span>
+        <span class="skill-pill">UAT</span>
+        <span class="skill-pill">Functional</span>
+        <span class="skill-pill">Mobile Testing</span>
+        <span class="skill-pill">Cross-browser</span>
+        <span class="skill-pill">JIRA</span>
+        <span class="skill-pill">Agile / SDLC / STLC</span>
+        <span class="skill-pill">MS Teams</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROJECTS -->
+<div class="section-page" id="sec-projects">
+  <div class="section-inner">
+    <button class="back-btn" onclick="closeSection('projects')">← back</button>
+    <div class="section-title">Projects</div>
+
+    <div class="proj-card">
+      <div class="proj-type"> Mental Healthcare · E2E Automation</div>
+      <div class="proj-name">BEME – Full Automation Suite</div>
+      <p class="proj-desc">End-to-end test automation covering API, UI & Database validations for a Mental Healthcare platform using a custom Cypress framework.</p>
+      <p class="proj-desc">https://beme.global/</p>
+      <div class="proj-tags">
+        <span class="proj-tag">Cypress</span>
+        <span class="proj-tag">JavaScript</span>
+        <span class="proj-tag">Chai</span>
+        <span class="proj-tag">Azure DevOps</span>
+      </div>
+    </div>
+
+    <div class="proj-card">
+      <div class="proj-type">Emobility · Mobile App Testing</div>
+      <div class="proj-name">Spiders Emobility</div>
+      <p class="proj-desc">100+ Manual test cases for complex web, backend & integrated system for Both Android and iOS versions.</p>
+      <p class="proj-desc">https://spiders.sa/</p>
+      <div class="proj-tags">
+        <span class="proj-tag">Manual Regression Testing</span>
+        <span class="proj-tag">Test Flight</span>
+        <span class="proj-tag">MS Excel</span>
+        <span class="proj-tag">JIRA</span>
+      </div>
+    </div>
+
+    <div class="proj-card">
+      <div class="proj-type">Chronic Health Management</div>
+      <div class="proj-name">CareNexa – Web Application & Load Testing</div>
+      <p class="proj-desc">Scalability & stability testing under high traffic using JMeter alongside comprehensive REST API validation via Postman.</p>
+      <p class="proj-desc">https://www.carenexahealth.org/</p>
+      <div class="proj-tags">
+        <span class="proj-tag">JMeter</span>
+        <span class="proj-tag">Postman</span>
+        <span class="proj-tag">REST API</span>
+      </div>
+    </div>
+
+    <div class="proj-card">
+      <div class="proj-type">BDD · Regression</div>
+      <div class="proj-name">OrangeHRM Automation Framework</div>
+      <p class="proj-desc">Selenium + Cucumber BDD automation framework using Page Factory design pattern for OrangeHRM application.</p>
+      <div class="proj-tags">
+        <span class="proj-tag">Selenium</span>
+        <span class="proj-tag">Java</span>
+        <span class="proj-tag">Cucumber BDD</span>
+      </div>
+    </div>
+
+    <div class="proj-card">
+      <div class="proj-type">Mobile · Manual QA</div>
+      <div class="proj-name">Mobile App QA – iOS & Android</div>
+      <p class="proj-desc">Comprehensive manual testing on both platforms covering UI, functionality & backend API integration validation.</p>
+      <div class="proj-tags">
+        <span class="proj-tag">Android</span>
+        <span class="proj-tag">iOS</span>
+        <span class="proj-tag">Postman</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- COLOPHON -->
+<div class="section-page" id="sec-colophon">
+  <div class="section-inner">
+    <button class="back-btn" onclick="closeSection('colophon')">← back</button>
+    <div class="section-title">Colophon</div>
+    <p class="colo-text">
+      A brief statement describing how this portfolio was built. This is a pure HTML, CSS & vanilla JavaScript single-page portfolio — no frameworks, no build tools. Inspired by the clean, minimal design of <strong>Arshdeep Singh's</strong> portfolio.
+      The design focuses on simplicity: a signature name, a command-palette style navigation, and clean typography.
+    </p>
+    <p class="colo-text">
+      Because good QA engineers appreciate clean, well-structured code — just like good test cases.
+    </p>
+    <div class="colo-pills">
+      <span class="colo-pill">HTML5</span>
+      <span class="colo-pill">CSS3</span>
+      <span class="colo-pill">Vanilla JS</span>
+      <span class="colo-pill">Great Vibes (font)</span>
+      <span class="colo-pill">Inter (font)</span>
+      <span class="colo-pill">Google Fonts</span>
+    </div>
+    <br/><br/>
+    <p style="font-size:0.75rem; color:var(--muted);">© 2025 Muhammad Zeeshan · Stay bug-free y'all 🐛</p>
+  </div>
+</div>
+
+<script>
+  // Search filter
+  const searchInput = document.getElementById('searchInput');
+  const menuItems = document.querySelectorAll('.menu-item');
+
+  searchInput.addEventListener('input', () => {
+    const q = searchInput.value.toLowerCase();
+    menuItems.forEach(item => {
+      const label = item.querySelector('.menu-label').textContent.toLowerCase();
+      const hint  = item.querySelector('.menu-hint') ? item.querySelector('.menu-hint').textContent.toLowerCase() : '';
+      item.style.display = (label.includes(q) || hint.includes(q) || q === '') ? 'flex' : 'none';
+    });
+  });
+
+  // Section navigation
+  function openSection(name) {
+    document.getElementById('sec-' + name).classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeSection(name) {
+    document.getElementById('sec-' + name).classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  // Keyboard ESC to go back
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      document.querySelectorAll('.section-page.active').forEach(p => p.classList.remove('active'));
+      document.body.style.overflow = '';
+    }
+  });
+</script>
+</body>
+</html>
